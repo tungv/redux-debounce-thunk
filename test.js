@@ -7,16 +7,27 @@ const configStore = reducer => {
   return store;
 };
 
-const actionCreator = () => {
+const sendTime = () => {
   return {
-    type: 'action',
+    type: 'TIME_ACTION',
     payload: Date.now(),
   };
 };
 
+const withParams = (a, b, c) => {
+  return {
+    type: 'WITH_PARAMS',
+    payload: a + b + c,
+  };
+};
+
 const reducer = (state = {}, action) => {
-  if (action.type === 'action') {
+  if (action.type === 'TIME_ACTION') {
     return { time: action.payload };
+  }
+
+  if (action.type === 'WITH_PARAMS') {
+    return { number: action.payload };
   }
 
   return state;
@@ -24,7 +35,7 @@ const reducer = (state = {}, action) => {
 
 describe('makeDebounce', () => {
   it('should dispatch', done => {
-    const debounced = makeDebounce(actionCreator, 100);
+    const debounced = makeDebounce(sendTime, 100);
     const store = configStore(reducer);
     const now = Date.now();
 
@@ -39,7 +50,7 @@ describe('makeDebounce', () => {
   });
 
   it('should debounce', done => {
-    const debounced = makeDebounce(actionCreator, 100);
+    const debounced = makeDebounce(sendTime, 100);
     const store = configStore(reducer);
     const now = Date.now();
 
@@ -57,5 +68,26 @@ describe('makeDebounce', () => {
     setTimeout(() => {
       store.dispatch(debounced());
     }, 198);
+  });
+
+  it('should carry args', () => {
+    const debounced = makeDebounce(withParams, 10);
+    const store = configStore(reducer);
+    const now = Date.now();
+
+    store.subscribe(() => {
+      const { number } = store.getState();
+
+      expect(number).toBe(12);
+      done();
+    });
+
+    store.dispatch(debounced(1, 2, 3));
+    setTimeout(() => {
+      store.dispatch(debounced(2, 3, 4));
+    }, 9);
+    setTimeout(() => {
+      store.dispatch(debounced(3, 4, 5));
+    }, 18);
   });
 });

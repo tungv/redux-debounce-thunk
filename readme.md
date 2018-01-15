@@ -27,7 +27,8 @@ const actionCreator = /* some action creator */;
 
 const debouncedActionCreator = makeDebounce(actionCreator, 300); // debounce 300ms
 
-store.dispatch(debouncedActionCreator());
+// simply dispatch the action
+store.dispatch(debouncedActionCreator(anyParams, anotherOne));
 ```
 
 # Why another redux-debounce-xxx
