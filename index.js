@@ -6,9 +6,17 @@ function always(x) {
 }
 
 module.exports = function(actionCreator, delay) {
+  var lastArgs;
+
   function thunk(dispatch) {
-    dispatch(actionCreator());
+    dispatch(actionCreator.apply(null, lastArgs));
   }
 
-  return always(debounce(thunk, delay));
+  const debounced = debounce(thunk, delay);
+
+  return function() {
+    lastArgs = [].slice.call(arguments);
+
+    return debounced;
+  };
 };

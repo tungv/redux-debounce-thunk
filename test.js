@@ -70,8 +70,9 @@ describe('makeDebounce', () => {
     }, 198);
   });
 
-  it('should carry args', () => {
+  it('should carry args', done => {
     const debounced = makeDebounce(withParams, 10);
+
     const store = configStore(reducer);
     const now = Date.now();
 
