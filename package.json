@@ -1,13 +1,17 @@
 {
   "name": "redux-debounce-thunk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "make a debounced version of a redux thunk action creator",
   "main": "index.js",
   "repository": "https://github.com/tungv/redux-debounce-thunk",
   "scripts": {
     "test": "jest"
   },
-  "keywords": ["redux", "thunk", "debounce"],
+  "keywords": [
+    "redux",
+    "thunk",
+    "debounce"
+  ],
   "author": "Tung Vu <me@tungv.com>",
   "license": "ISC",
   "dependencies": {
